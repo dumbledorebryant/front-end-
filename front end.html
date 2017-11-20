@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>前端</title>
+    <script src="https://cdn.bootcss.com/react/15.4.2/react.min.js"></script>
+    <script src="https://cdn.bootcss.com/react/15.4.2/react-dom.min.js"></script>
+    <script src="https://cdn.bootcss.com/babel-standalone/6.22.1/babel.min.js"></script>
+</head>
+<body>
+<div id="example" align="center"></div>
+<script type="text/babel">
+
+    var image_heart="heart.jpg"
+    var image_like="like.jpg"
+
+    var WebSite = React.createClass({
+        render: function() {
+            return (
+                <div>
+                    <Link  />
+                </div>
+            );
+        }
+    });
+
+    var Link = React.createClass({
+        getInitialState: function() {
+            return {choice: true};
+        },
+        handleClick: function(event) {
+            this.setState({choice: !this.state.choice});
+        },
+        render: function() {
+            var name = this.state.choice ? "百度" : "谷歌";
+            var site = this.state.choice ? 'http://www.baidu.com' : 'http://www.google.com';
+            return (
+                <div>
+                    <h1 align="center">搜索引擎选择服务站--SE--proj</h1>
+                    <h2 >
+                        点击更换搜索引擎~
+                    </h2>
+                    <button onClick={this.handleClick} >
+                        {name}
+                    </button>
+                    <h3 align="center">(google needs vpn)</h3>
+                    <a href={site} >
+                        ~GO go Go!
+                    </a>
+                </div>
+            );
+        }
+    });
+
+    var HelloMessage = React.createClass({
+        getInitialState: function() {
+            return {value: 'comment here'};
+        },
+        handleChange: function(event) {
+            this.setState({value: event.target.value});
+        },
+        render: function() {
+            var value = this.state.value;
+            return <div>
+                <input type="text" value={value} onChange={this.handleChange} />
+                <h4>{value}</h4>
+            </div>;
+        }
+    });
+
+    var Hello = React.createClass({
+        getInitialState: function () {
+            return {
+                opacity: 1.0
+            };
+        },
+
+        componentDidMount: function () {
+            this.timer = setInterval(function () {
+                var opacity = this.state.opacity;
+                opacity -= .05;
+                if (opacity < 0.1) {
+                    opacity = 1.0;
+                }
+                this.setState({
+                    opacity: opacity
+                });
+            }.bind(this), 100);
+        },
+
+        render: function () {
+            return (
+                <div style={{opacity: this.state.opacity}}>
+                    <img className="image" src={image_like} />
+                    {this.props.name}
+                </div>
+            );
+        }
+    });
+
+
+    //点击图片——点赞
+    var Button = React.createClass({
+        getInitialState: function() {
+            return {
+                data:0
+            };
+        },
+        setNewNumber: function() {
+            this.setState({data: this.state.data + 1})
+        },
+        render: function () {
+            return (
+                <div>
+                    <button onClick = {this.setNewNumber}>
+                        <img className="image" src={image_heart}/>
+                    </button>
+                    <Content myNumber = {this.state.data}>
+                    </Content>
+                </div>
+            );
+        }
+    })
+    var Content = React.createClass({
+        componentWillMount:function() {
+            console.log('Component WILL MOUNT!')
+        },
+        componentDidMount:function() {
+            console.log('Component DID MOUNT!')
+        },
+        componentWillReceiveProps:function(newProps) {
+            console.log('Component WILL RECEIVE PROPS!')
+        },
+        shouldComponentUpdate:function(newProps, newState) {
+            return true;
+        },
+        componentWillUpdate:function(nextProps, nextState) {
+            console.log('Component WILL UPDATE!');
+        },
+        componentDidUpdate:function(prevProps, prevState) {
+            console.log('Component DID UPDATE!')
+        },
+        componentWillUnmount:function() {
+            console.log('Component WILL UNMOUNT!')
+        },
+
+        render: function () {
+            return (
+                <div>
+                    <h3>点赞数：{this.props.myNumber}</h3>
+                </div>
+            );
+        }
+    });
+
+    ReactDOM.render(
+        <div>
+            <WebSite site=" http://www.baidu.com" />
+            <p>input your comment</p>
+            <HelloMessage />
+            <p>~如果你觉得本站的引擎选择可以令人满意的话请点击下方点赞图标~</p>
+            <Button/>
+            <Hello name="~欢迎再来~"/>,
+        </div>,
+        document.getElementById('example')
+    );
+
+</script>
+</body>
+</html>
